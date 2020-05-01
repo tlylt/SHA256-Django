@@ -1,0 +1,76 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHA256 Generator</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+
+<body>
+    <h1 style='color:aliceblue'>A SHA256 Hashing generator </h1>
+    <form onsubmit="return false;">
+        <div class="padlock">
+            <div class="padlock__hook">
+                <div class="padlock__hook-body"></div>
+                <div class="padlock__hook-body"></div>
+            </div>
+            <div class="padlock__body">
+                <div class="padlock__face">
+                    <div class="padlock__eye padlock__eye--left"></div>
+                    <div class="padlock__eye padlock__eye--right"></div>
+                    <div class="padlock__mouth padlock__mouth--one"></div>
+                    <div class="padlock__mouth padlock__mouth--two"></div>
+                    <div class="padlock__mouth padlock__mouth--three"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form action="{% url 'home' %}" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+        <!-- <input type="submit" name="submit" value="Hash"> -->
+        <textarea id="quickhash" cols="65" placeholder="Your SHA256 Hash will be displayed here" readonly></textarea>
+    </form>
+
+
+    <form onsubmit="return false;">
+
+        <div class="padlock">
+            <div class="padlock__hook">
+                <div class="padlock__hook-body"></div>
+                <div class="padlock__hook-body"></div>
+            </div>
+            <div class="padlock__body">
+                <div class="padlock__face">
+                    <div class="padlock__eye padlock__eye--left"></div>
+                    <div class="padlock__eye padlock__eye--right"></div>
+                    <div class="padlock__mouth padlock__mouth--one"></div>
+                    <div class="padlock__mouth padlock__mouth--two"></div>
+                    <div class="padlock__mouth padlock__mouth--three"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <p style="display:flex;">style from https://codepen.io/jh3y/pen/GRpMZZG</p>
+    <script>
+        $('#id_text').keyup(function () {
+            var text = $(this).val();
+            $.ajax({
+                url: 'quickhash',
+                data: {
+                    'text': text
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#quickhash').text(data['hash']);
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
